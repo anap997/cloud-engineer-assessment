@@ -1,11 +1,11 @@
 # Use the .NET SDK image as the base image
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
 # Set the working directory inside the container
 WORKDIR /app
 
 # Copy the project files to the working directory
-COPY . .
+COPY src .
 
 # Build the project
 RUN dotnet build -c Release
