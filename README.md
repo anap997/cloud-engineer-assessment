@@ -1,5 +1,3 @@
-# cloud-engineer-assessment
-
 # dotnet-todo
 
 ## Test the GET endpoints
