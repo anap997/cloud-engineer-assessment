@@ -1,0 +1,42 @@
+name: GitHub Actions
+on:
+  workflow_dispatch:
+    inputs:
+      BUMP_VERSION:
+        required: false
+        type: choice
+        options:
+          - ''
+          - major
+          - minor
+          - patch
+          - release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Version Bump
+        run: |
+          if [[ "${{ inputs.BUMP_VERSION }}" == '' ]]; then
+            bumpversion release
+          else
+            bumpversion ${{ inputs.BUMP_VERSION }}
+          fi
+
+      - name: Build and push Docker image
+        run: |
+          NAME=todoapp
+          VERSION=$(cat ./version)
+          docker build . -t $NAME:$VERSION
+          docker tag $NAME:$VERSION anapetrovska/$NAME:$VERSION
+          docker push anapetrovska/$NAME:$VERSION
+
+      - name: Commit version changes
+        run: |
+          git add --all
+          git commit -m "Bumping version to $VERSION" || true
+          git push
