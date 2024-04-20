@@ -48,5 +48,9 @@ docker build -t todoapp:latest .
 To run the Docker image follow this command:
 
 ```
-docker run -p 5000:5000 todoapp:latest
+docker run -p 8080:8080 todoapp:latest
 ```
+
+do curl... to check
+
+## Deploy Helm chart

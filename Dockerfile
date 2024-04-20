@@ -11,7 +11,7 @@ COPY src .
 RUN dotnet build -c Release
 
 # Expose port 5000 to the outside world (if needed)
-EXPOSE 5000
+EXPOSE 8080
 
 # Define the entry point for the container
 CMD ["dotnet", "run", "--project", "TodoApi.csproj"]
