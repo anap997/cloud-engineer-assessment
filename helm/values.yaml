@@ -10,3 +10,8 @@ service:
   name: todoapp-service
   type: ClusterIP
   port: 80
+
+dockerRegistrySecret:
+  username: anapetrovska
+  password: "testingpass123"
+  email: petrovska.ana3@hotmail.com
