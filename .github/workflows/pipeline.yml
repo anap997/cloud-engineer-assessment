@@ -77,3 +77,11 @@ jobs:
       - name: Try the cluster !
         run: kubectl get pods -A
 
+      - name: Setup Helm
+        uses: azure/setup-helm@v1
+  
+      - name: Install Helm Chart
+        run: |
+          ls
+          helm upgrade --install todo-app helm --namespace=todoapp
+
