@@ -29,6 +29,12 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       
+      - name: Configure Git identity
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+        
+      
       - name: Install bumpversion
         run: pip install bumpversion
         
