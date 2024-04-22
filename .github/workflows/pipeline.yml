@@ -83,5 +83,7 @@ jobs:
       - name: Install Helm Chart
         run: |
           ls
+          kubectl create namespace todoapp
           helm upgrade --install todo-app helm --namespace=todoapp
+
 
