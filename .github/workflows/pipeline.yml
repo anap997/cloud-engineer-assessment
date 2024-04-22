@@ -84,6 +84,9 @@ jobs:
         run: |
           ls
           kubectl create namespace todoapp
+          kubectl config current-context
+          kubectl config view --minify | grep namespace
+
           helm upgrade --install todo-app -n todoapp ./helm
 
 
