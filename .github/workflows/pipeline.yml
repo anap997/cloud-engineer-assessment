@@ -56,6 +56,7 @@ jobs:
 
       - name: Commit version changes
         run: |
+          git branch
           git add --all
           git commit -m "Bumping version to $VERSION" || true
           git push
@@ -64,12 +65,15 @@ jobs:
     runs-on: ubuntu-latest
         
     needs: build
-        
+    
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-        
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v1
-        with:
-          version: 'latest'
+
+      - name: start minikube
+        id: minikube
+        uses: medyagh/setup-minikube@master
+      
+      - name: Try the cluster !
+        run: kubectl get pods -A
+
