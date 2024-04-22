@@ -84,6 +84,6 @@ jobs:
         run: |
           ls
           kubectl create namespace todoapp
-          helm upgrade --install todo-app helm --namespace=todoapp
+          helm upgrade --install todo-app -n todoapp ./helm
 
 
