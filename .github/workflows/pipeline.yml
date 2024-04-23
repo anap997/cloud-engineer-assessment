@@ -53,6 +53,12 @@ jobs:
           docker build . -t $NAME:$VERSION
           docker tag $NAME:$VERSION anapetrovska/$NAME:$VERSION
           docker push anapetrovska/$NAME:$VERSION
+      
+      - name: Update version in Helm chart
+        run: |
+          
+          sed -i '/^version/s/.*/$VERSION/' helm/Chart.yaml  
+          cat helm/Chart.yaml         
 
       - name: Commit version changes
         run: |
@@ -74,9 +80,6 @@ jobs:
         id: minikube
         uses: medyagh/setup-minikube@master
       
-      - name: Try the cluster !
-        run: kubectl get pods -A
-
       - name: Setup Helm
         uses: azure/setup-helm@v4.2.0
   
@@ -85,5 +88,6 @@ jobs:
           ls
           kubectl create namespace todoapp
           helm upgrade --install todo-app -n todoapp ./helm
+          kubectl get all -n todoapp
 
 
