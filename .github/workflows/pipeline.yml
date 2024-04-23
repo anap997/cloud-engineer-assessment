@@ -1,4 +1,4 @@
-name: GitHub Actions pipeline
+oname: GitHub Actions pipeline
 on:
   push:
     branches:
@@ -56,7 +56,7 @@ jobs:
       
       - name: Update version in Helm chart
         run: |
-          
+          echo $VERSION
           sed -i "/^version/s/.*/version: $VERSION/" helm/Chart.yaml
           cat helm/Chart.yaml         
 
