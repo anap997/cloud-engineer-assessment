@@ -1,5 +1,9 @@
 name: GitHub Actions pipeline
 on:
+  push:
+    branches:
+      - 'main'
+      - 'testing-bumpversion'
   workflow_dispatch:
     inputs:
       BUMP_VERSION:
@@ -24,7 +28,16 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
+      
+      - name: Configure Git identity
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+        
+      
+      - name: Install bumpversion
+        run: pip install bumpversion
+        
       - name: Version Bump
         run: |
           if [[ "${{ inputs.BUMP_VERSION }}" == '' ]]; then
@@ -40,9 +53,18 @@ jobs:
           docker build . -t $NAME:$VERSION
           docker tag $NAME:$VERSION anapetrovska/$NAME:$VERSION
           docker push anapetrovska/$NAME:$VERSION
+      
+      - name: Update version in Helm chart
+        run: |
+          VERSION=$(cat ./version)
+          echo $VERSION
+          sed -i "s|^version: .*|version: $VERSION|" helm/Chart.yaml
+          
+          cat helm/Chart.yaml         
 
       - name: Commit version changes
         run: |
+          git branch
           git add --all
           git commit -m "Bumping version to $VERSION" || true
           git push
@@ -51,12 +73,23 @@ jobs:
     runs-on: ubuntu-latest
         
     needs: build
-        
+    
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-        
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v1
-        with:
-          version: 'latest'
+
+      - name: start minikube
+        id: minikube
+        uses: medyagh/setup-minikube@master
+      
+      - name: Setup Helm
+        uses: azure/setup-helm@v4.2.0
+  
+      - name: Install Helm Chart
+        run: |
+          ls
+          kubectl create namespace todoapp
+          helm upgrade --install todo-app -n todoapp ./helm
+          kubectl get all -n todoapp
+
+
