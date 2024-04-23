@@ -59,7 +59,7 @@ jobs:
           VERSION=$(cat ./version)
           echo $VERSION
           
-          sed -i '' "/^version/s/.*/version: $VERSION/" Chart.yaml
+          sed -i '' "/^version/s/.*/version: $VERSION/" helm/Chart.yaml
           cat helm/Chart.yaml         
 
       - name: Commit version changes
