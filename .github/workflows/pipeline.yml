@@ -58,8 +58,8 @@ jobs:
         run: |
           VERSION=$(cat ./version)
           echo $VERSION
+          sed -i "s|^version: .*|version: $VERSION|" helm/Chart.yaml
           
-          sed -i "/^version/s/.*/version: \"$VERSION\"/" helm/Chart.yaml
           cat helm/Chart.yaml         
 
       - name: Commit version changes
