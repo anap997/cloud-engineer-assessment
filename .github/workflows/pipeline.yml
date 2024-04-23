@@ -57,7 +57,7 @@ jobs:
       - name: Update version in Helm chart
         run: |
           
-          sed -i '/^version/s/.*/$VERSION/' helm/Chart.yaml  
+          sed -i "/^version/s/.*/version: $VERSION/" helm/Chart.yaml
           cat helm/Chart.yaml         
 
       - name: Commit version changes
