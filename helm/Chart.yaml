@@ -1,4 +1,4 @@
 apiVersion: v1
 name: todoapp
 description: A Helm chart for deploying todoapp
-version: 0.0.0-16
+version: 0.1.0
