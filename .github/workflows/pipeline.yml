@@ -4,6 +4,7 @@ on:
     branches:
       - 'main'
       - 'testing-bumpversion'
+      - 'running-tests'
   workflow_dispatch:
     inputs:
       BUMP_VERSION:
