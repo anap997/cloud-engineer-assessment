@@ -88,13 +88,15 @@ jobs:
   
       - name: Install Helm Chart
         run: |
-          ls
+          
           kubectl create namespace todoapp
           helm upgrade --install todo-app -n todoapp ./helm
           
           pod_name=$(kubectl get pods -n todoapp -o=jsonpath='{.items[*].metadata.name}')
           
           kubectl logs $pod_name -n todoapp
+          kubectl describe pod $pod_name -n todoapp
+
           
           kubectl exec $pod_name -n todoapp -- sh -c 'curl http://localhost:8080/healthz'
 
