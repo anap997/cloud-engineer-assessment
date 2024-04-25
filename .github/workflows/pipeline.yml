@@ -2,9 +2,14 @@ name: GitHub Actions pipeline
 on:
   push:
     branches:
-      - 'main'
-      - 'testing-bumpversion'
-      - 'running-tests'
+      - main
+      - running-tests
+  pull_request:
+    branches:
+      - main
+      - feature/**
+      - bugfix/**
+      - release/**
   workflow_dispatch:
     inputs:
       BUMP_VERSION:
@@ -34,7 +39,6 @@ jobs:
         run: |
           git config --global user.email "you@example.com"
           git config --global user.name "Your Name"
-        
       
       - name: Install bumpversion
         run: pip install bumpversion
@@ -60,9 +64,7 @@ jobs:
           VERSION=$(cat ./version)
           echo $VERSION
           sed -i "s|^version: .*|version: $VERSION|" helm/Chart.yaml
-          
-          cat helm/Chart.yaml         
-
+           
       - name: Commit version changes
         run: |
           git branch
@@ -70,11 +72,7 @@ jobs:
           git commit -m "Bumping version to $VERSION" || true
           git push
   
-  
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: start minikube
+      - name: Start minikube
         id: minikube
         uses: medyagh/setup-minikube@master
       
@@ -83,15 +81,18 @@ jobs:
   
       - name: Install Helm Chart
         run: |
-          
           kubectl create namespace todoapp
-          helm upgrade --install todo-app -n todoapp ./helm
-          docker images
-          sleep 30
-          
-          pod_name=$(kubectl get pods -n todoapp -o=jsonpath='{.items[*].metadata.name}')
+          helm upgrade --install todo-app -n todoapp ./helm 
+        
 
-          kubectl describe pod $pod_name -n todoapp
-          kubectl logs $pod_name -n todoapp
-   
-          kubectl exec $pod_name -n todoapp -- sh -c 'curl http://localhost:8080/healthz'
+      - name: Check app health status
+        run: |
+          pod_name=$(kubectl get pods -n todoapp -o=jsonpath='{.items[*].metadata.name}')
+          status=$(kubectl exec $pod_name -n todoapp -- sh -c 'curl http://localhost:8080/healthz')
+          pod_name=$(kubectl get pods -n todoapp -o=jsonpath='{.items[*].metadata.name}')
+    
+          if [ "$status" != "Healthy" ]; then
+            echo "Application status is not healthy. Failing the job."
+            exit 1
+          fi
+          
