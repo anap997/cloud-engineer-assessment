@@ -94,6 +94,7 @@ curl http://localhost:8080/todoitems
 To uninstall/delete the chart, use the `helm uninstall` command:
 ```bash
 helm uninstall <release-name>
+```
 
 ## GitHub Actions Pipeline
 
