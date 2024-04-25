@@ -90,7 +90,7 @@ jobs:
           sleep 30
           kubectl get pods -n todoapp
           pod_name=$(kubectl get pods -n todoapp -o=jsonpath='{.items[*].metadata.name}')
-          kubectl describe pod $pod_name
+          kubectl describe pod $pod_name -n todoapp
           status=$(kubectl exec $pod_name -n todoapp -- sh -c 'curl http://localhost:8080/healthz')
           pod_name=$(kubectl get pods -n todoapp -o=jsonpath='{.items[*].metadata.name}')
           
