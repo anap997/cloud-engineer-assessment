@@ -20,5 +20,4 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: 80
-      imagePullSecrets:
-        - name: docker-reg-secret
+      
