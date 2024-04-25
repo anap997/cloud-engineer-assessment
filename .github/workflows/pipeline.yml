@@ -87,10 +87,11 @@ jobs:
 
       - name: Check app health status
         run: |
+          kubectl get pods -n todoapp
           pod_name=$(kubectl get pods -n todoapp -o=jsonpath='{.items[*].metadata.name}')
           status=$(kubectl exec $pod_name -n todoapp -- sh -c 'curl http://localhost:8080/healthz')
           pod_name=$(kubectl get pods -n todoapp -o=jsonpath='{.items[*].metadata.name}')
-    
+          
           if [ "$status" != "Healthy" ]; then
             echo "Application status is not healthy. Failing the job."
             exit 1
