@@ -1,42 +1,5 @@
 # dotnet-todo
 
-## Test the GET endpoints
-
-Test the app by calling the endpoints from a browser or Postman. The following steps are for Postman.
-
-  Create a new HTTP request.
-  Set the HTTP method to GET.
-  Set the request URI to https://localhost:<port>/todoitems. For example, https://localhost:5001/todoitems.
-  Select Send.
-
-The call to GET /todoitems produces a response similar to the following:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "walk dog",
-    "isComplete": false
-  }
-]
-```
-
-  Set the request URI to https://localhost:<port>/todoitems/1. For example, https://localhost:5001/todoitems/1.
-
-  Select Send.
-
-  The response is similar to the following:
-
-```json
-  {
-    "id": 1,
-    "name": "walk dog",
-    "isComplete": false
-  }
-```
-
-This app uses an in-memory database. If the app is restarted, the GET request doesn't return any data. If no data is returned, POST data to the app and try the GET request again.
-
 ## Build and run Docker image
 
 ### Prerequisites
@@ -96,6 +59,43 @@ To uninstall/delete the chart, use the `helm uninstall` command:
 helm uninstall <release-name>
 ```
 
+## Test the GET endpoints
+
+Test the app by calling the endpoints from a browser or Postman. The following steps are for Postman.
+
+  Create a new HTTP request.
+  Set the HTTP method to GET.
+  Set the request URI to https://localhost:<port>/todoitems. For example, https://localhost:5001/todoitems.
+  Select Send.
+
+The call to GET /todoitems produces a response similar to the following:
+
+```json
+[
+  {
+    "id": 1,
+    "name": "walk dog",
+    "isComplete": false
+  }
+]
+```
+
+  Set the request URI to https://localhost:<port>/todoitems/1. For example, https://localhost:5001/todoitems/1.
+
+  Select Send.
+
+  The response is similar to the following:
+
+```json
+  {
+    "id": 1,
+    "name": "walk dog",
+    "isComplete": false
+  }
+```
+
+This app uses an in-memory database. If the app is restarted, the GET request doesn't return any data. If no data is returned, POST data to the app and try the GET request again.
+
 ## GitHub Actions Pipeline
 
 This GitHub Actions pipeline is designed to automate the build, deployment, and versioning processes for the project. It consists of several jobs and steps triggered by different events, including pushes to the main branch, pull requests to various branches, and manual workflow dispatches.
@@ -125,9 +125,7 @@ This job runs on an Ubuntu latest environment and consists of the following step
 11. **Install Helm Chart**: Installs or upgrades the Helm chart for the application.
 12. **Check app health status**: Verifies if deployed application is running.
 
-
-
-###NOTE:
+---
+**NOTE:**
 1. **Sonarcloud** - in the branch sonarcloud, in the workflow file, there is a step to run code analysis. During testing I was facing issues with sonar_token, and not able to find in time the issue.
 2. **Terraform** - for the last part of the assessment only VPC is created, I'm getting familiar with AWS Lambda currently and it would take me a bit more time to find the right solution to implement with Terraform
-3. **Helm** - If Docker Hub repo was private and we needed to pull an image from there, we would need to set up a secret with credentials to authenticate
