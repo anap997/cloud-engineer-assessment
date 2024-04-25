@@ -126,6 +126,8 @@ This job runs on an Ubuntu latest environment and consists of the following step
 12. **Check app health status**: Verifies if deployed application is running.
 
 
+
 ###NOTE:
 1. **Sonarcloud** - in the branch sonarcloud, in the workflow file, there is a step to run code analysis. During testing I was facing issues with sonar_token, and not able to find in time the issue.
-2. **Terraform** - for the last part of the assessment only VPC is created, I'm getting familiar with AWS Lambda currently and it would take me a bit more time to find the right solution to implement with Terraform 
+2. **Terraform** - for the last part of the assessment only VPC is created, I'm getting familiar with AWS Lambda currently and it would take me a bit more time to find the right solution to implement with Terraform
+3. **Helm** - If Docker Hub repo was private and we needed to pull an image from there, we would need to set up a secret with credentials to authenticate
