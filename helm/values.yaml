@@ -2,7 +2,7 @@
 replicaCount: 1
 
 image:
-  repository: anapetrovska/todo-app
+  repository: anapetrovska/todoapp
   pullPolicy: IfNotPresent
 
 service:
